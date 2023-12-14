@@ -41,7 +41,6 @@ class Product:
             error_message = f'Продуктов не хватает. Максимальное кол-во {self.quantity}'
             raise ValueError(error_message)
 
-
     def __hash__(self):
 
         return hash(self.name + self.description)
@@ -65,7 +64,9 @@ class Cart:
         Метод добавления продукта в корзину.
         Если продукт уже есть в корзине, то увеличиваем количество
         """
-        raise NotImplementedError
+        if product.check_quantity(buy_count):
+            self.products.__add
+            return print('test')
 
     def remove_product(self, product: Product, remove_count=None):
         """

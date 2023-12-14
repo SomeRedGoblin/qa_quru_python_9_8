@@ -3,12 +3,17 @@
 """
 import pytest
 
-from homework.models import Product
+from homework.models import Product, Cart
 
 
 @pytest.fixture
 def product():
     return Product("book", 100, "This is a book", 1000)
+
+
+@pytest.fixture
+def cart():
+    return Cart()
 
 
 class TestProducts:
@@ -29,7 +34,6 @@ class TestProducts:
         assert str(e_info.value) == "'<' not supported between instances of 'int' and 'str'"
         # Через try-except
         # assert product.check_quantity('d') == 'Должно быть число'
-
 
     def test_product_buy(self, product):
         # TODO напишите проверки на метод buy
@@ -61,3 +65,7 @@ class TestCart:
         На некоторые методы у вас может быть несколько тестов.
         Например, негативные тесты, ожидающие ошибку (используйте pytest.raises, чтобы проверить это)
     """
+
+    def test_add_to_cart(self, product, cart):
+        print(cart.add_product(product, 2))
+        print()
