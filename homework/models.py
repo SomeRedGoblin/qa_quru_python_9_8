@@ -18,7 +18,16 @@ class Product:
         TODO Верните True если количество продукта больше или равно запрашиваемому
             и False в обратном случае
         """
-        return True if self.quantity >= quantity else False
+        """
+        Через try-except  
+            try:
+                return True if 0 < quantity <= self.quantity else False
+            except ValueError:
+                return 'Вне диапазона'
+            except TypeError:
+                return 'Должно быть целое число'
+        """
+        return True if 0 < quantity <= self.quantity else False
 
     def buy(self, quantity):
         """

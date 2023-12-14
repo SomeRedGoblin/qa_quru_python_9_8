@@ -21,10 +21,15 @@ class TestProducts:
         # TODO напишите проверки на метод check_quantity
         assert product.check_quantity(1000) is True
         assert product.check_quantity(1001) is False
+        assert product.check_quantity(0) is False
+        assert product.check_quantity(-1) is False
         with pytest.raises(TypeError) as e_info:
             product.check_quantity('someStr')
         print(e_info.value)
-        assert str(e_info.value) == "'>=' not supported between instances of 'int' and 'str'"
+        assert str(e_info.value) == "'<' not supported between instances of 'int' and 'str'"
+        # Через try-except
+        # assert product.check_quantity('d') == 'Должно быть число'
+
 
     def test_product_buy(self, product):
         # TODO напишите проверки на метод buy
@@ -32,7 +37,7 @@ class TestProducts:
         with pytest.raises(TypeError) as e_info:
             product.buy('someStr')
         print(e_info.value)
-        assert str(e_info.value) == "'>=' not supported between instances of 'int' and 'str'"
+        assert str(e_info.value) == "'<' not supported between instances of 'int' and 'str'"
 
     def test_product_buy_more_than_available(self, product):
         # TODO напишите проверки на метод buy,
@@ -46,7 +51,7 @@ class TestProducts:
         with pytest.raises(TypeError) as e_info:
             product.buy('someStr')
         print(e_info.value)
-        assert str(e_info.value) == "'>=' not supported between instances of 'int' and 'str'"
+        assert str(e_info.value) == "'<' not supported between instances of 'int' and 'str'"
 
 
 class TestCart:
