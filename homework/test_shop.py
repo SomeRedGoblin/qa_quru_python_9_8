@@ -30,7 +30,6 @@ class TestProducts:
         assert product.check_quantity(-1) is False
         with pytest.raises(TypeError) as e_info:
             product.check_quantity('someStr')
-        print(e_info.value)
         assert str(e_info.value) == "'<' not supported between instances of 'int' and 'str'"
         # Через try-except
         # assert product.check_quantity('d') == 'Должно быть число'
@@ -101,7 +100,11 @@ class TestCart:
     def test_cart_buy_product(self, product, cart):
         cart.add_product(product, 10)
         cart.buy()
-        print(product.quantity)
+        assert product.quantity == 990
+
+        cart.add_product(product, 30)
+        cart.buy()
+        assert product.quantity == 960
 
     def test_cart_buy_more_than_available(self, product, cart):
         cart.add_product(product, 1001)

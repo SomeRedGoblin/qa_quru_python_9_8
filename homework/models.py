@@ -36,7 +36,8 @@ class Product:
             Если продуктов не хватает, то выбросите исключение ValueError
         """
         if self.check_quantity(quantity):
-            return self.quantity - quantity
+            self.quantity -= quantity
+            return self.quantity
         else:
             error_message = f'Продуктов не хватает. Максимальное кол-во {self.quantity}'
             raise ValueError(error_message)
@@ -93,7 +94,6 @@ class Cart:
         total_price = 0
         for product in self.products:
             total_price = self.products[product] * product.price
-            print(f'total_price if {total_price}')
         return total_price
 
     def buy(self):
@@ -103,10 +103,5 @@ class Cart:
         В этом случае нужно выбросить исключение ValueError
         """
         for product in self.products:
-            if product.check_quantity(self.products[product]):
-                product.buy(self.products[product])
-
-            else:
-                error_message = f'Продуктов не хватает. Максимальное кол-во {product.quantity}'
-                raise ValueError(error_message)
-        # self.clear()
+            product.buy(self.products[product])
+        self.clear()
