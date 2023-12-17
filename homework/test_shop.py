@@ -112,3 +112,8 @@ class TestCart:
             cart.buy()
         assert str(e_info.value) == "Продуктов не хватает. Максимальное кол-во 1000"
 
+    def test_cart_buy_another_product(self, product, cart):
+        cart.add_product(product, 10)
+        new_product = Product("book", 100, "This is a book", 1000)
+        cart.add_product(new_product, 10)
+        assert cart.products.__len__() == 1
