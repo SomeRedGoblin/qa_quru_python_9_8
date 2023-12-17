@@ -38,10 +38,6 @@ class TestProducts:
     def test_product_buy(self, product):
         # TODO напишите проверки на метод buy
         assert product.buy(10) == 990
-        with pytest.raises(TypeError) as e_info:
-            product.buy('someStr')
-        print(e_info.value)
-        assert str(e_info.value) == "'<' not supported between instances of 'int' and 'str'"
 
     def test_product_buy_more_than_available(self, product):
         # TODO напишите проверки на метод buy,
@@ -49,12 +45,11 @@ class TestProducts:
 
         with pytest.raises(ValueError) as e_info:
             product.buy(product.quantity + 1)
-        print(e_info.value)
         assert str(e_info.value) == f'Продуктов не хватает. Максимальное кол-во {product.quantity}'
 
+    def test_product_buy_wrong_type_data(self, product):
         with pytest.raises(TypeError) as e_info:
             product.buy('someStr')
-        print(e_info.value)
         assert str(e_info.value) == "'<' not supported between instances of 'int' and 'str'"
 
 
@@ -67,5 +62,50 @@ class TestCart:
     """
 
     def test_add_to_cart(self, product, cart):
-        print(cart.add_product(product, 2))
-        print()
+        cart.add_product(product, 2)
+        assert cart.products[product] == 2
+        cart.add_product(product, 3)
+        assert cart.products[product] == 5
+        cart.add_product(product, 1000)
+        assert cart.products[product] == 1005
+
+    def test_remove_from_cart(self, product, cart):
+        cart.add_product(product, 2)
+        cart.remove_product(product, None)
+        assert (product in cart.products) is False
+
+        cart.add_product(product, 2)
+        cart.remove_product(product, 2)
+        assert (product in cart.products) is False
+
+        cart.add_product(product, 2)
+        cart.remove_product(product, 3)
+        assert (product in cart.products) is False
+
+        cart.add_product(product, 5)
+        cart.remove_product(product, 2)
+        assert cart.products[product] == 3
+
+    def test_clear_cart(self, product, cart):
+        cart.add_product(product, 5)
+        cart.clear()
+        assert cart.products == {}
+
+    def test_check_price(self, product, cart):
+        cart.add_product(product, 5)
+        assert cart.get_total_price() == 500
+
+        cart.clear()
+        assert cart.get_total_price() == 0
+
+    def test_cart_buy_product(self, product, cart):
+        cart.add_product(product, 10)
+        cart.buy()
+        print(product.quantity)
+
+    def test_cart_buy_more_than_available(self, product, cart):
+        cart.add_product(product, 1001)
+        with pytest.raises(ValueError) as e_info:
+            cart.buy()
+        assert str(e_info.value) == "Продуктов не хватает. Максимальное кол-во 1000"
+
