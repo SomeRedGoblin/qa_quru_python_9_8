@@ -43,8 +43,10 @@ class Product:
             raise ValueError(error_message)
 
     def __hash__(self):
-
         return hash(self.name + self.description)
+
+    def __eq__(self, other):
+        return hash(self.name + self.description) == hash(other.name + other.description)
 
 
 class Cart:
